@@ -14,8 +14,12 @@ namespace CRUD_WithMongo.Models
         public static IMongoClient client { get; set; }
         public static IMongoDatabase database { get; set; }
         public static string MongoDatabase = "crud_mongodb";
-        public static string MongoConnection = ConfigurationManager.ConnectionStrings["MongoConnection"].ConnectionString;
+        public static string MongoConnection = ConfigurationManager.ConnectionStrings["MongoConnection"].ConnectionString.Replace("&amp;", "&");
         // You might need to replace & with &amp; in your Mongo Connection string stored in Web.Config
+
+        public static IMongoCollection<Models.Student> students_collection { get; set; }
+
+
         internal static void ConnectToMongoService()
         {
             try
