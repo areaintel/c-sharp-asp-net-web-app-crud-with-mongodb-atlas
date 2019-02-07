@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,14 @@ namespace CRUD_WithMongo.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View();
+
+            Models.MongoHelper.ConnectToMongoService();
+            Models.MongoHelper.students_collection =
+                Models.MongoHelper.database.GetCollection<Models.Student>("students");
+            var filter = Builders<Models.Student>.Filter.Ne("_id","");
+            var result = Models.MongoHelper.students_collection.Find(filter).ToList();
+
+            return View(result);
         }
 
         // GET: Student/Details/5
